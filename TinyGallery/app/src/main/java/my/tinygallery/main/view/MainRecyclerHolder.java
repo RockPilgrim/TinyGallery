@@ -12,7 +12,7 @@ import butterknife.OnClick;
 import my.tinygallery.main.presenter.IGetImage;
 import my.tinygallery.R;
 
-public class mRecyclerHolder extends RecyclerView.ViewHolder {
+public class MainRecyclerHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.preview_imageView)
     public ImageView imageView;
@@ -21,7 +21,7 @@ public class mRecyclerHolder extends RecyclerView.ViewHolder {
 
     private IGetImage presenter;
 
-    public mRecyclerHolder(@NonNull View itemView) {
+    public MainRecyclerHolder(@NonNull View itemView) {
         super(itemView);
 
         ButterKnife.bind(this,itemView);

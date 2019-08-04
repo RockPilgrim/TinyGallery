@@ -7,66 +7,72 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
+import my.tinygallery.IPresenterModelChange;
 import my.tinygallery.data.Hit;
+import my.tinygallery.data.ModelPhoto;
 import my.tinygallery.data.ModelServer;
 import my.tinygallery.data.Photo;
+import my.tinygallery.data.app.App;
 import my.tinygallery.main.view.IActivityMvpView;
 import my.tinygallery.main.view.IUpdateRecyclerAdapter;
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<IActivityMvpView> implements IPresenterForRecycler {
+public class MainPresenter extends MvpPresenter<IActivityMvpView> implements IPresenterForRecycler, IPresenterModelChange {
 
     public static final String TAG = "MainPresenter";
 
     private List<Hit> hitList;
 
-    private ModelServer server;
+    @Inject
+    public ModelPhoto modelPhoto;
 
     private IUpdateRecyclerAdapter recyclerAdapter;
 
     public MainPresenter() {
-        server = new ModelServer();
+        Log.i(TAG, "Created");
+        App.getAppComponent().inject(this);
+        modelPhoto.setPresenter(this);
     }
 
     public void setRecyclerAdapter(IUpdateRecyclerAdapter adapter) {
         this.recyclerAdapter = adapter;
 
-        Observable<Photo> observable = server.requestToServer();
+        Log.i(TAG, "Get list");
+        recyclerAdapter.updateRecycler();
+    }
 
-        Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread()).subscribe(photo -> {
-            hitList = photo.getHitList();
-            recyclerAdapter.updateRecycler();
-        }, throwable -> {
-            Log.e(TAG, "connection problem",throwable);
-        });
+    @Override
+    public void onGetList() {
+        hitList = modelPhoto.getHitList();
+        recyclerAdapter.updateRecycler();
     }
 
     @Override
     public void getImage(int position, ImageView imageView) {
         Picasso.get()
-                .load(hitList.get(position).getUrl())
+                .load(hitList.get(position).getPreviewURL())
                 .into(imageView);
-        Log.i(TAG, "getImage");
+        Log.i(TAG, "setPosition");
     }
 
     @Override
     public void onImageClick(int position) {
-        getViewState().changeActivity(hitList.get(position).getUrl());
-        Log.i(TAG, "OnClick: " + (position + 1)+ " "+hitList.get(position).getUrl());
+        getViewState().changeActivity(position);
+        Log.i(TAG, "OnClick: " + (position + 1)/*+ " "+hitList.get(position).getUrl()*/);
 
     }
 
     @Override
     public int getImageCount() {
-        if (hitList != null) {
+        if (hitList != null)
             return 16;
-        }
         return 0;
     }
-
 }

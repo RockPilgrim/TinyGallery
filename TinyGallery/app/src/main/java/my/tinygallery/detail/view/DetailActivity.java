@@ -12,10 +12,10 @@ import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
 import my.tinygallery.R;
-import my.tinygallery.MainActivity;
 import my.tinygallery.detail.presenter.DetailPresenter;
+import my.tinygallery.main.view.MainActivity;
 
-public class DetailActivity extends MvpAppCompatActivity implements IMvpDetailView{
+public class DetailActivity extends MvpAppCompatActivity implements IMvpDetailView {
 
 
     @BindView(R.id.detail_imageView)
@@ -27,6 +27,7 @@ public class DetailActivity extends MvpAppCompatActivity implements IMvpDetailVi
 
 
     private String imageUrl;
+    private int position;
 
     @ProvidePresenter
     public DetailPresenter providePresenter() {
@@ -40,11 +41,12 @@ public class DetailActivity extends MvpAppCompatActivity implements IMvpDetailVi
 
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        imageUrl = intent.getStringExtra(MainActivity.EXTRA_SENT_URL);
+        position = intent.getIntExtra(MainActivity.EXTRA_SENT_POSITION, 0);
+        presenter.setPosition(position);
     }
 
     @Override
-    public void setImage() {
-        Picasso.get().load(imageUrl).into(detailImageView);
+    public void setImage(String url) {
+        Picasso.get().load(url).into(detailImageView);
     }
 }

@@ -7,6 +7,6 @@ import moxy.viewstate.strategy.StateStrategyType;
 public interface IMvpDetailView extends MvpView {
 
     @StateStrategyType(value = AddToEndSingleTagStrategy.class)
-    void setImage();
+    void setImage(String url);
 
 }

@@ -12,9 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ModelServer {
 
-    public static final String KEY = "13141951-0300f6e9a2dd12c9e8b28d812";
+    private static final String KEY = "13141951-0300f6e9a2dd12c9e8b28d812";
 
-    public Observable<Photo> requestToServer() {
+    public static Observable<Photo> requestToServer() {
 
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()

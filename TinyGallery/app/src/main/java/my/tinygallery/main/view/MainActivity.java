@@ -1,4 +1,4 @@
-package my.tinygallery;
+package my.tinygallery.main.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,19 +11,20 @@ import butterknife.ButterKnife;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
+import my.tinygallery.R;
 import my.tinygallery.main.presenter.MainPresenter;
 import my.tinygallery.detail.view.DetailActivity;
 import my.tinygallery.main.view.IActivityMvpView;
-import my.tinygallery.main.view.mRecyclerAdapter;
+import my.tinygallery.main.view.MainRecyclerAdapter;
 
 public class MainActivity extends MvpAppCompatActivity implements IActivityMvpView {
 
 
-    public static final String EXTRA_SENT_URL = "Send url to activity";
+    public static final String EXTRA_SENT_POSITION = "Send";
     @BindView(R.id.m_recyclerView)
     public RecyclerView recyclerView;
 
-    private mRecyclerAdapter adapter;
+    private MainRecyclerAdapter adapter;
 
 
     @InjectPresenter
@@ -46,15 +47,15 @@ public class MainActivity extends MvpAppCompatActivity implements IActivityMvpVi
 
     private void initUI() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new mRecyclerAdapter(presenter);
+        adapter = new MainRecyclerAdapter(presenter);
         recyclerView.setAdapter(adapter);
         presenter.setRecyclerAdapter(adapter);
     }
 
     @Override
-    public void changeActivity(String url) {
+    public void changeActivity(int position) {
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(EXTRA_SENT_URL, url);
+        intent.putExtra(EXTRA_SENT_POSITION, position);
         startActivity(intent);
     }
 }

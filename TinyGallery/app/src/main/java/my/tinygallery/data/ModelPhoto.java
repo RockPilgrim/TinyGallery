@@ -7,30 +7,36 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import my.tinygallery.IPresenterModelChange;
 
 public class ModelPhoto {
 
     private static final String TAG = "Model Photo";
-    private ModelServer server;
+    private IPresenterModelChange presenter;
 
     private List<Hit> hitList;
 
-/*    public List<Hit> getHitList() {
-        if (hitList != null) {
-            return hitList;
-        }else
-            return requestToServer();
-    }*/
 
-/*    private List<Hit> requestToServer() {
-        Observable<Photo> observable = server.requestToServer();
+    public ModelPhoto() {
+        Log.i(TAG, "Created");
+        requirePhoto();
+    }
+
+    public void setPresenter(IPresenterModelChange presenter) {
+        this.presenter = presenter;
+    }
+
+    private void requirePhoto() {
+        Observable<Photo> observable = ModelServer.requestToServer();
 
         Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread()).subscribe(photo -> {
             hitList = photo.getHitList();
-//            recyclerAdapter.updateRecycler();
-            return photo.getHitList();
-        }, throwable -> {
-            Log.e(TAG, "connection problem",throwable);
-        });
-    }*/
+            presenter.onGetList();
+            Log.i(TAG, "Server connect");
+        }, throwable -> Log.e(TAG, "connection problem", throwable));
+    }
+
+    public List<Hit> getHitList() {
+        return hitList;
+    }
 }

@@ -9,6 +9,18 @@ public class Hit {
     @Expose
     private String url;
 
+    @SerializedName("previewURL")
+    @Expose
+    private String previewURL;
+
+    public String getPreviewURL() {
+        return previewURL;
+    }
+
+    public void setPreviewURL(String previewURL) {
+        this.previewURL = previewURL;
+    }
+
     public String getUrl() {
         return url;
     }

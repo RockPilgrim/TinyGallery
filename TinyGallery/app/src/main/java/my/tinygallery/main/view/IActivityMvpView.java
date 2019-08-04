@@ -8,5 +8,5 @@ import moxy.viewstate.strategy.StateStrategyType;
 public interface IActivityMvpView extends MvpView {
 
     @StateStrategyType(value = AddToEndSingleTagStrategy.class)
-    void changeActivity(String url);
+    void changeActivity(int position);
 }
