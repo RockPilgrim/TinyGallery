@@ -5,15 +5,15 @@
 
 
     <ImageView
-        android:layout_weight="1"
         android:id="@+id/detail_imageView"
-        android:layout_gravity="center"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/d_va"/>
+        android:layout_weight="1"
+        android:src="@drawable/d_va" />
 
 </LinearLayout>

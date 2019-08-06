@@ -1,4 +1,4 @@
-package my.tinygallery.data.app;
+package my.tinygallery.model.app;
 
 
 import android.content.Context;
@@ -7,8 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import my.tinygallery.IPresenterModelChange;
-import my.tinygallery.data.ModelPhoto;
+import my.tinygallery.model.Model;
 
 @Module
 public class AppModule {
@@ -21,7 +20,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ModelPhoto provideModelPhoto() {
-        return new ModelPhoto();
+    Model provideModel() {
+        return new Model();
     }
 }

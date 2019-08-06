@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import my.tinygallery.main.presenter.IPresenterForRecycler;
 import my.tinygallery.R;
+import my.tinygallery.main.presenter.IPresenterForRecycler;
 
-public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder> implements IUpdateRecyclerAdapter{
+public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder> implements IUpdateRecyclerAdapter {
 
 
     public static final String TAG = "Recycler Adapter";

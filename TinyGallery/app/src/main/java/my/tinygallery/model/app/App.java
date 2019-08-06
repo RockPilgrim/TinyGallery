@@ -1,14 +1,17 @@
-package my.tinygallery.data.app;
+package my.tinygallery.model.app;
 
 import android.app.Application;
-
-import my.tinygallery.IPresenterModelChange;
+import android.util.Log;
 
 public class App extends Application {
 
 
+    public static final String TAG = "App";
     private static AppComponent appComponent;
 
+    public static AppComponent getAppComponent() {
+        return appComponent;
+    }
 
     @Override
     public void onCreate() {
@@ -22,7 +25,9 @@ public class App extends Application {
                 .build();
     }
 
-    public static AppComponent getAppComponent() {
-        return appComponent;
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        Log.i(TAG, "Terminate");
     }
 }

@@ -1,33 +1,46 @@
 package my.tinygallery.detail.presenter;
 
-import android.widget.ImageView;
+import android.util.Log;
 
-import com.squareup.picasso.Picasso;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import my.tinygallery.IPresenterModelChange;
-import my.tinygallery.data.ModelPhoto;
-import my.tinygallery.data.app.App;
 import my.tinygallery.detail.view.IMvpDetailView;
+import my.tinygallery.main.presenter.IPresenterModelChange;
+import my.tinygallery.model.Model;
+import my.tinygallery.model.app.App;
 
 @InjectViewState
 public class DetailPresenter extends MvpPresenter<IMvpDetailView> implements IPresenterModelChange {
 
 
+    public static final String TAG = "DetailPresenter";
     @Inject
-    public ModelPhoto modelPhoto;
+    public Model model;
 
+    private int position;
+
+    @Override
+    public Set<IMvpDetailView> getAttachedViews() {
+        Log.i(TAG, "Attach");
+        getViewState().setImage(model.getHitList().get(position).getUrl());
+        return super.getAttachedViews();
+    }
 
     public DetailPresenter() {
         App.getAppComponent().inject(this);
-        modelPhoto.setPresenter(this);
+        model.setPresenter(this);
     }
 
     public void setPosition(int position) {
-        getViewState().setImage(modelPhoto.getHitList().get(position).getUrl());
+
+        this.position = position;
+        Log.i(TAG, "setPosition " + position);
+
+//        getViewState().setImage(model.getHitList().get(position).getUrl());
     }
 
     @Override

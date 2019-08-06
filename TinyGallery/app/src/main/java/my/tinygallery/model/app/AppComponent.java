@@ -1,4 +1,4 @@
-package my.tinygallery.data.app;
+package my.tinygallery.model.app;
 
 
 import javax.inject.Singleton;
@@ -12,6 +12,7 @@ import my.tinygallery.main.presenter.MainPresenter;
 public interface AppComponent {
 
     void inject(MainPresenter presenter);
+
     void inject(DetailPresenter presenter);
 
 }

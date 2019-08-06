@@ -9,48 +9,40 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import my.tinygallery.IPresenterModelChange;
-import my.tinygallery.data.Hit;
-import my.tinygallery.data.ModelPhoto;
-import my.tinygallery.data.ModelServer;
-import my.tinygallery.data.Photo;
-import my.tinygallery.data.app.App;
 import my.tinygallery.main.view.IActivityMvpView;
 import my.tinygallery.main.view.IUpdateRecyclerAdapter;
+import my.tinygallery.model.Hit;
+import my.tinygallery.model.Model;
+import my.tinygallery.model.app.App;
 
 @InjectViewState
 public class MainPresenter extends MvpPresenter<IActivityMvpView> implements IPresenterForRecycler, IPresenterModelChange {
 
     public static final String TAG = "MainPresenter";
-
-    private List<Hit> hitList;
-
     @Inject
-    public ModelPhoto modelPhoto;
-
+    public Model model;
+    private List<Hit> hitList;
     private IUpdateRecyclerAdapter recyclerAdapter;
 
     public MainPresenter() {
         Log.i(TAG, "Created");
         App.getAppComponent().inject(this);
-        modelPhoto.setPresenter(this);
+        model.setPresenter(this);
+        hitList = model.getHitList();
     }
 
     public void setRecyclerAdapter(IUpdateRecyclerAdapter adapter) {
         this.recyclerAdapter = adapter;
 
-        Log.i(TAG, "Get list");
+        Log.i(TAG, "Set recyclerAdapter");
         recyclerAdapter.updateRecycler();
     }
 
     @Override
     public void onGetList() {
-        hitList = modelPhoto.getHitList();
+        hitList = model.getHitList();
         recyclerAdapter.updateRecycler();
     }
 

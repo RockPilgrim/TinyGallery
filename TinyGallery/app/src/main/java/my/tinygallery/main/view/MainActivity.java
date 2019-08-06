@@ -12,10 +12,8 @@ import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
 import my.tinygallery.R;
-import my.tinygallery.main.presenter.MainPresenter;
 import my.tinygallery.detail.view.DetailActivity;
-import my.tinygallery.main.view.IActivityMvpView;
-import my.tinygallery.main.view.MainRecyclerAdapter;
+import my.tinygallery.main.presenter.MainPresenter;
 
 public class MainActivity extends MvpAppCompatActivity implements IActivityMvpView {
 
@@ -23,12 +21,9 @@ public class MainActivity extends MvpAppCompatActivity implements IActivityMvpVi
     public static final String EXTRA_SENT_POSITION = "Send";
     @BindView(R.id.m_recyclerView)
     public RecyclerView recyclerView;
-
-    private MainRecyclerAdapter adapter;
-
-
     @InjectPresenter
     MainPresenter presenter;
+    private MainRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +34,7 @@ public class MainActivity extends MvpAppCompatActivity implements IActivityMvpVi
 
         initUI();
     }
+
 
     @ProvidePresenter
     public MainPresenter providePresenter() {

@@ -1,4 +1,4 @@
-package my.tinygallery.data;
+package my.tinygallery.model;
 
 import android.util.Log;
 
@@ -7,9 +7,9 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import my.tinygallery.IPresenterModelChange;
+import my.tinygallery.main.presenter.IPresenterModelChange;
 
-public class ModelPhoto {
+public class Model {
 
     private static final String TAG = "Model Photo";
     private IPresenterModelChange presenter;
@@ -17,7 +17,7 @@ public class ModelPhoto {
     private List<Hit> hitList;
 
 
-    public ModelPhoto() {
+    public Model() {
         Log.i(TAG, "Created");
         requirePhoto();
     }
@@ -27,7 +27,7 @@ public class ModelPhoto {
     }
 
     private void requirePhoto() {
-        Observable<Photo> observable = ModelServer.requestToServer();
+        Observable<Photo> observable = ServerConnector.requestToServer();
 
         Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread()).subscribe(photo -> {
             hitList = photo.getHitList();

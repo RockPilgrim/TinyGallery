@@ -1,4 +1,4 @@
-package my.tinygallery;
+package my.tinygallery.main.presenter;
 
 public interface IPresenterModelChange {
 

@@ -1,4 +1,4 @@
-package my.tinygallery.data;
+package my.tinygallery.model;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
