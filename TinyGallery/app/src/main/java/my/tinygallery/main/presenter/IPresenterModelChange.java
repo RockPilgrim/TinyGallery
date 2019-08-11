@@ -2,5 +2,5 @@ package my.tinygallery.main.presenter;
 
 public interface IPresenterModelChange {
 
-    void onGetList();
+    void updateList();
 }

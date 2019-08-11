@@ -18,6 +18,7 @@ public class DetailPresenter extends MvpPresenter<IMvpDetailView> implements IPr
 
 
     public static final String TAG = "DetailPresenter";
+
     @Inject
     public Model model;
 
@@ -44,7 +45,7 @@ public class DetailPresenter extends MvpPresenter<IMvpDetailView> implements IPr
     }
 
     @Override
-    public void onGetList() {
+    public void updateList() {
 
     }
 }

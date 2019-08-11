@@ -8,14 +8,15 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import my.tinygallery.R;
 import my.tinygallery.main.presenter.IGetImage;
 
-public class MainRecyclerHolder extends RecyclerView.ViewHolder {
+public class MainRecyclerHolder extends RecyclerView.ViewHolder implements IPictureSettings {
 
     public static final String TAG = "MainRecyclerHolder";
     @BindView(R.id.preview_imageView)
@@ -30,7 +31,6 @@ public class MainRecyclerHolder extends RecyclerView.ViewHolder {
 
     public MainRecyclerHolder(@NonNull View itemView) {
         super(itemView);
-
         ButterKnife.bind(this, itemView);
     }
 
@@ -39,18 +39,31 @@ public class MainRecyclerHolder extends RecyclerView.ViewHolder {
         presenter.onImageClick(position);
     }
 
-    @OnCheckedChanged(R.id.like_button)
+    @OnClick(R.id.like_button)
     public void onCheckLike() {
-        if (likeButton.isChecked()) {
-            Log.i(TAG, "Checked on " + position);
-        } else {
-            Log.i(TAG, "Checked off " + position);
-        }
+        if (likeButton.isChecked())
+            presenter.addFavorite(position);
+        else
+            presenter.deleteFavorite(position);
+
     }
 
     public void bind(int position, IGetImage presenter) {
+        Log.i(TAG, "Holder " + position + " " + getAdapterPosition());
         this.position = position;
         this.presenter = presenter;
-        presenter.getImage(position, imageView);
+        likeButton.setChecked(presenter.isCheck(position));
+        presenter.getImage(position, this);
+    }
+
+
+    @Override
+    public void setImage(String url) {
+        Picasso.get().load(url).into(imageView);
+    }
+
+    @Override
+    public void setCheck(boolean heart) {
+        likeButton.setChecked(heart);
     }
 }

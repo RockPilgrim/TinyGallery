@@ -47,7 +47,6 @@ public class DetailActivity extends MvpAppCompatActivity implements IMvpDetailVi
 
     @Override
     public void setImage(String url) {
-        Log.i(TAG, url);
         Picasso.get().load(url).into(detailImageView);
     }
 }

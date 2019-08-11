@@ -34,6 +34,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder
         holder.bind(position, presenter);
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+//        Log.i(TAG, "position: " + position);
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Log.i(TAG, "id: " + position);
+        return super.getItemId(position);
+    }
+
     @Override
     public int getItemCount() {
         return presenter.getImageCount();
@@ -45,3 +58,5 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder
         notifyDataSetChanged();
     }
 }
+
+
