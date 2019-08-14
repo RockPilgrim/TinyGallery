@@ -49,7 +49,7 @@ public class MainRecyclerHolder extends RecyclerView.ViewHolder implements IPict
     }
 
     public void bind(int position, IGetImage presenter) {
-        Log.i(TAG, "Holder " + position + " " + getAdapterPosition());
+//        Log.i(TAG, "bind " +  getAdapterPosition());
         this.position = position;
         this.presenter = presenter;
         likeButton.setChecked(presenter.isCheck(position));

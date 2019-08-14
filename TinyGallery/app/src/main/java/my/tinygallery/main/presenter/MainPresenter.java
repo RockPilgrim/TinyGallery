@@ -2,6 +2,7 @@ package my.tinygallery.main.presenter;
 
 import android.util.Log;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,9 +47,6 @@ public class MainPresenter extends MvpPresenter<IActivityMvpView> implements IPr
     ////// RecyclerHolder method
     @Override
     public void getImage(int position, IPictureSettings settings) {
-        /*Picasso.get()
-                .load(hitList.get(position).getPreviewURL())
-                .into(imageView);*/
         settings.setImage(hitList.get(position).getPreviewURL());
         settings.setCheck(hitList.get(position).isFavorite());
     }
@@ -84,9 +82,20 @@ public class MainPresenter extends MvpPresenter<IActivityMvpView> implements IPr
 
     ///// RecyclerAdapter method
     @Override
-    public void updateList() {
+    public synchronized void updateList() {
         hitList = model.getHitList();
-        recyclerAdapter.updateRecycler();
+        int p = 0;
+        try {
+            for (int i = 0; i < hitList.size(); i++) {
+                if (hitList.get(i).isFavorite()) {
+                    Collections.swap(hitList, i, p);
+                    p++;
+                }
+            }
+            recyclerAdapter.updateRecycler();
+        } catch (NullPointerException e) {
+            Log.e(TAG, "updateList", e);
+        }
     }
 
     ///// RecyclerAdapter method

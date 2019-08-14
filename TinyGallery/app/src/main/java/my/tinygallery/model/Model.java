@@ -2,6 +2,7 @@ package my.tinygallery.model;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -21,6 +22,7 @@ public class Model {
     private IPresenterModelChange presenter;
 
     private List<Hit> hitList;
+    private List<Hit> oldList;
 
 
     private FavoritePhotoDao photoDao;
@@ -28,19 +30,21 @@ public class Model {
 
     public Model() {
         Log.i(TAG, "Created");
+        oldList = new ArrayList<>();
+        hitList = new ArrayList<>();
         requirePhoto();
+        connectToDb();
     }
 
     private void connectToDb() {
         photoDao = App.getPhotoDatabase().photoDao();
         Single<List<FavoritePhoto>> observable = photoDao.getAllPhoto();
-        Disposable disposable = observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(photos -> {
-                    Log.i(TAG, "Db connect");
                     for (int i = 0; i < photos.size(); i++) {
                         hitList.add(i, new Hit(photos.get(i).getUrl(), photos.get(i).getUrl(), true));
                     }
+                    Log.i(TAG, "Db connect "+Thread.currentThread());
                     presenter.updateList();
                 }, throwable -> {
                     Log.e(TAG, "Db exception", throwable);
@@ -50,10 +54,9 @@ public class Model {
     private void requirePhoto() {
         Observable<Photo> observable = ServerConnector.requestToServer();
         Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread()).subscribe(photo -> {
-            hitList = photo.getHitList();
-            connectToDb();
+            hitList.addAll(photo.getHitList());
             presenter.updateList();
-            Log.i(TAG, "Server connect");
+            Log.i(TAG, "Server connect "+Thread.currentThread());
         }, throwable -> Log.e(TAG, "connection problem", throwable));
     }
 

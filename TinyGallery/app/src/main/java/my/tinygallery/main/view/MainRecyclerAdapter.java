@@ -6,10 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import my.tinygallery.R;
+import my.tinygallery.main.presenter.DiffHitCallback;
 import my.tinygallery.main.presenter.IPresenterForRecycler;
+import my.tinygallery.model.Hit;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder> implements IUpdateRecyclerAdapter {
 
@@ -34,19 +40,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder
         holder.bind(position, presenter);
     }
 
-
-    @Override
-    public int getItemViewType(int position) {
-//        Log.i(TAG, "position: " + position);
-        return super.getItemViewType(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        Log.i(TAG, "id: " + position);
-        return super.getItemId(position);
-    }
-
     @Override
     public int getItemCount() {
         return presenter.getImageCount();
@@ -54,6 +47,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerHolder
 
     @Override
     public void updateRecycler() {
+        Log.i(TAG, "Update");
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateRecycler(ArrayList<Hit> oldHitList,ArrayList<Hit> newHitList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffHitCallback(oldHitList,newHitList));
+        diffResult.dispatchUpdatesTo(this);
         Log.i(TAG, "Update");
         notifyDataSetChanged();
     }
