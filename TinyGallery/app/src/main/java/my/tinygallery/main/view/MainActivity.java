@@ -1,6 +1,7 @@
 package my.tinygallery.main.view;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,10 +28,11 @@ public class MainActivity extends MvpAppCompatActivity implements IActivityMvpVi
 
     public static final String EXTRA_SENT_POSITION = "Send";
     public static final String TAG = "MainActivity";
+    private int span=2;
+    private int offset = 40;
+
     @BindView(R.id.m_recyclerView)
     public RecyclerView recyclerView;
-//    @BindView(R.id.refresh_button)
-//    public ImageButton refreshButton;
 
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
@@ -71,11 +74,13 @@ public class MainActivity extends MvpAppCompatActivity implements IActivityMvpVi
     }
 
     private void initUI() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new MyGridLayout(this, span));
+        recyclerView.addItemDecoration(new ItemDecoration(offset));
         adapter = new MainRecyclerAdapter(presenter);
         recyclerView.setAdapter(adapter);
         presenter.setRecyclerAdapter(adapter);
     }
+
 
     @Override
     public void changeActivity(int position) {
@@ -83,12 +88,6 @@ public class MainActivity extends MvpAppCompatActivity implements IActivityMvpVi
         intent.putExtra(EXTRA_SENT_POSITION, position);
         startActivity(intent);
     }
-
-//    @OnClick(R.id.refresh_button)
-//    public void onRefresh() {
-//        presenter.updateList();
-//        Log.i(TAG, "onRefresh");
-//    }
 
     @Override
     protected void onResume() {
