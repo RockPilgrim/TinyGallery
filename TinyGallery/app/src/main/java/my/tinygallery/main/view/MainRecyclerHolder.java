@@ -49,7 +49,6 @@ public class MainRecyclerHolder extends RecyclerView.ViewHolder implements IPict
     }
 
     public void bind(int position, IGetImage presenter) {
-//        Log.i(TAG, "bind " +  getAdapterPosition());
         this.position = position;
         this.presenter = presenter;
         likeButton.setChecked(presenter.isCheck(position));
@@ -59,7 +58,9 @@ public class MainRecyclerHolder extends RecyclerView.ViewHolder implements IPict
 
     @Override
     public void setImage(String url) {
-        Picasso.get().load(url).into(imageView);
+        Picasso.get()
+                .load(url)
+                .into(imageView);
     }
 
     @Override

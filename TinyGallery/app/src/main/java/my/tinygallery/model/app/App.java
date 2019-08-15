@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import my.tinygallery.model.database.PhotoDatabase;
 
 public class App extends Application {
@@ -24,6 +26,15 @@ public class App extends Application {
         super.onCreate();
         appComponent = initAppComponent();
         photoDatabase = initDatabase();
+
+        initLaekCanary();
+    }
+
+    private void initLaekCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     private PhotoDatabase initDatabase() {
